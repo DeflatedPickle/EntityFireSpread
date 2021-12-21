@@ -1,11 +1,11 @@
 /* Copyright (c) 2021 DeflatedPickle under the MIT license */
 
-package com.deflatedpickle.thisisfine
+package com.deflatedpickle.entityfirespread
 
 import net.fabricmc.api.ModInitializer
 
 @Suppress("UNUSED")
-object ThisIsFine : ModInitializer {
+object EntityFireSpread : ModInitializer {
     private const val MOD_ID = "$[id]"
     private const val NAME = "$[name]"
     private const val GROUP = "$[group]"

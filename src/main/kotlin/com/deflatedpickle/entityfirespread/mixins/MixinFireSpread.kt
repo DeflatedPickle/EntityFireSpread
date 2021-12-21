@@ -2,11 +2,10 @@
 
 @file:Suppress("unused")
 
-package com.deflatedpickle.thisisfine.mixins
+package com.deflatedpickle.entityfirespread.mixins
 
 import net.minecraft.block.AbstractFireBlock
 import net.minecraft.block.Block
-import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.GameRules
@@ -31,10 +30,18 @@ abstract class MixinFireSpread {
     fun onTick(info: CallbackInfo) {
         val world = getWorld()
 
-        if (Random.nextInt(10) == 0 && !world.isClient && world.gameRules.getBoolean(GameRules.DO_FIRE_TICK) && this.isOnFire()) {
-            if (AbstractFireBlock.canPlaceAt(world, this.blockPos, null)) {
-                val fire = AbstractFireBlock.getState(world, this.blockPos)
-                world.setBlockState(this.blockPos, fire, Block.NOTIFY_ALL or Block.REDRAW_ON_MAIN_THREAD)
+        if (!world.isClient) {
+            if (this.isOnFire() && world.gameRules.getBoolean(GameRules.DO_FIRE_TICK)) {
+                if (Random.nextInt(
+                        if (world.hasHighHumidity(this.blockPos)) 25
+                        else 10
+                    ) == 0
+                ) {
+                    if (AbstractFireBlock.canPlaceAt(world, this.blockPos, null)) {
+                        val fire = AbstractFireBlock.getState(world, this.blockPos)
+                        world.setBlockState(this.blockPos, fire, Block.NOTIFY_ALL or Block.REDRAW_ON_MAIN_THREAD)
+                    }
+                }
             }
         }
     }

@@ -47,7 +47,7 @@ jobs:
           path: "./build/libs/*"
 
       - name: Delete dev files
-        run: rm ./build/libs/.*-dev
+        run: find ./build/libs/ -name '.*-dev' -delete
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
